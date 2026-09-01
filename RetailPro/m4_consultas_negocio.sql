@@ -47,12 +47,11 @@ SELECT
     SUM(cantidad * precio_unitario) AS total_facturado,
     CASE 
         WHEN SUM(cantidad * precio_unitario) >= (
-            SELECT AVG(total_mensual) 
-                FROM (
-                   SELECT SUM(cantidad * precio_unitario) AS total_mensual 
-                    FROM ventas 
-                    GROUP BY MONTH(fecha_venta)
-            ) AS promedio_mensual_general
+            SELECT AVG(total) FROM (
+                SELECT SUM(cantidad * precio_unitario) AS total 
+                FROM ventas 
+                GROUP BY MONTH(fecha_venta)
+            ) AS promedio_general_mensual
         ) THEN 'Por encima'
         ELSE 'Por debajo' END AS relacion_con_promedio
 FROM ventas
@@ -74,4 +73,3 @@ ORDER BY mes;
 -- 3. Todos los clientes registrados realizaron 2 pedidos
 -- cada uno, pero el 73.5% de la facturación total está 
 -- concentrado en los clientes 1 ($2.640,00) y 5 ($2.100.00).
-
