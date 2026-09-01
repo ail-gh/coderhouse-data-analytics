@@ -52,7 +52,8 @@ SELECT
                 FROM ventas 
                 GROUP BY MONTH(fecha_venta)
             ) AS promedio_general_mensual
-        ) THEN 'Por encima'
+        ) 
+        THEN 'Por encima'
         ELSE 'Por debajo' END AS relacion_con_promedio
 FROM ventas
 GROUP BY MONTH(fecha_venta)
